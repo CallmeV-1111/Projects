@@ -20,7 +20,15 @@ RUN pip3 install --no-cache-dir ansible
 
 RUN mkdir -p /root/.ssh && chmod 700 /root/.ssh
 
+RUN mkdir -p /ansible
+
+RUN mkdir -p /ansible && \
+    echo "[slaves]" > /ansible/inventory
+    
+RUN echo "[defaults]" > /ansible/ansible.cfg
+
 WORKDIR /ansible
+
 
 CMD ["/bin/bash"]
 
