@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  ansible-master:
+    build: ./master
+    container_name: ansible-head
+    volumes:
+      - ./ssh/:/root/.ssh/
+    tty: true
+    networks:
+      - ansible-net
+
+  ansible-slave-ubuntu:
+    build: ./slave-ubuntu
+    tty: true
+    volumes:
+      - ./ssh/id_rsa.pub:/home/ansible/.ssh/authorized_keys:ro
+    container_name: ansible-slave-ubuntu
+    networks:
+      - ansible-net
+  ansible-slave-centos:
+    build: ./slave-centos
+    tty: true
+    volumes:
+      - ./ssh/id_rsa.pub:/home/ansible/.ssh/authorized_keys:ro
+    container_name: ansible-slave-centos
+    networks:
+      - ansible-net
+   
+networks:
+  ansible-net:
+    driver: bridge
